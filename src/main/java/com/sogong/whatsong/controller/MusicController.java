@@ -1,6 +1,7 @@
 package com.sogong.whatsong.controller;
 
 import com.sogong.whatsong.controller.dto.response.DailyMusicResponse;
+import com.sogong.whatsong.controller.dto.response.MusicListResponse;
 import com.sogong.whatsong.service.music.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,5 +18,10 @@ public class MusicController {
     @GetMapping("/daily")
     public DailyMusicResponse dailyMusic() {
         return musicService.getDailyMusic();
+    }
+
+    @GetMapping("/top10")
+    public MusicListResponse top10() {
+        return musicService.getTop10Music();
     }
 }
