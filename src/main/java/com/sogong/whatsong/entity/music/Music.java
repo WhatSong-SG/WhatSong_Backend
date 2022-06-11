@@ -1,11 +1,9 @@
 package com.sogong.whatsong.entity.music;
 
+import com.sogong.whatsong.entity.genre.Genre;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -34,4 +32,8 @@ public class Music {
     private Integer up;
     
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
 }
