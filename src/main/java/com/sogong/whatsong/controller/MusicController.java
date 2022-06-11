@@ -23,7 +23,7 @@ public class MusicController {
         return musicService.getTop10Music();
     }
 
-    @GetMapping("/{genre-id}")
+    @GetMapping("/genre/{genre-id}")
     public MusicListResponse musicList(@PathVariable("genre-id") Long genreId) {
         return musicService.getMusicByGenre(genreId);
     }
