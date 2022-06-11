@@ -1,6 +1,7 @@
 package com.sogong.whatsong.controller;
 
 import com.sogong.whatsong.controller.dto.response.DailyMusicResponse;
+import com.sogong.whatsong.controller.dto.response.MusicInformationResponse;
 import com.sogong.whatsong.controller.dto.response.MusicListResponse;
 import com.sogong.whatsong.service.music.MusicService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,11 @@ public class MusicController {
     @GetMapping("/top10")
     public MusicListResponse top10() {
         return musicService.getTop10Music();
+    }
+
+    @GetMapping("/{music-id}")
+    public MusicInformationResponse musicInformation(@PathVariable("music-id") Long musicId) {
+        return musicService.getMusicInformation(musicId);
     }
 
     @GetMapping("/genre/{genre-id}")

@@ -1,6 +1,7 @@
 package com.sogong.whatsong.service.music;
 
 import com.sogong.whatsong.controller.dto.response.DailyMusicResponse;
+import com.sogong.whatsong.controller.dto.response.MusicInformationResponse;
 import com.sogong.whatsong.controller.dto.response.MusicListResponse;
 import com.sogong.whatsong.entity.dailymusic.DailyMusic;
 import com.sogong.whatsong.entity.dailymusic.DailyMusicRepository;
@@ -84,5 +85,24 @@ public class MusicService {
                 .orElseThrow(() -> MusicNotFoundException.EXCEPTION);
 
         music.recommend();
+    }
+
+    public MusicInformationResponse getMusicInformation(Long musicId) {
+        Music music = musicRepository.findById(musicId)
+                .orElseThrow(() -> MusicNotFoundException.EXCEPTION);
+
+        return MusicInformationResponse.builder()
+                .id(music.getId())
+                .artist(music.getArtist())
+                .trackName(music.getName())
+                .cover(music.getCover())
+                .link(MusicInformationResponse.Link.builder()
+                        .appleMusic(music.getAppleLink())
+                        .youtubeMusic(music.getYoutubeLink())
+                        .spotify(music.getSpotifyLink())
+                        .build())
+                .date(music.getCreatedAt())
+                .up(music.getUp())
+                .build();
     }
 }
