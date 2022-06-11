@@ -12,6 +12,7 @@ import com.sogong.whatsong.exception.exceptions.GenreNotFoundException;
 import com.sogong.whatsong.exception.exceptions.MusicNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -75,5 +76,13 @@ public class MusicService {
                         .build())
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    @Transactional
+    public void recommendMusic(Long musicId) {
+        Music music = musicRepository.findById(musicId)
+                .orElseThrow(() -> MusicNotFoundException.EXCEPTION);
+
+        music.recommend();
     }
 }
