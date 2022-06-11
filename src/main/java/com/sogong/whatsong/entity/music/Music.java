@@ -36,4 +36,8 @@ public class Music {
     @ManyToOne
     @JoinColumn(name = "genre_id")
     private Genre genre;
+
+    public void recommend() {
+        this.up++;
+    }
 }
