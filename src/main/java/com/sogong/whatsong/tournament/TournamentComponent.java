@@ -15,6 +15,9 @@ public class TournamentComponent {
     @Setter
     private Music music2;
 
+    @Setter
+    private Boolean isLeafMatch = false;
+
     private Music winner;
 
     private final Integer round;

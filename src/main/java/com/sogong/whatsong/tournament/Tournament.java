@@ -3,14 +3,13 @@ package com.sogong.whatsong.tournament;
 import com.sogong.whatsong.entity.music.Music;
 import lombok.Getter;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 @Getter
 public class Tournament {
 
-    private final Queue<TournamentComponent> matches = new LinkedList<>();
+    private final Queue<TournamentComponent> tournamentComponents = new LinkedList<>();
+    private final List<TournamentComponent> matches = new ArrayList<>();
 
     private final Integer matchCount;
 
@@ -30,24 +29,27 @@ public class Tournament {
 
         Queue<TournamentComponent> preMatches = new LinkedList<>();
 
-        while ((round/=2) != 0) {
-            for(int i=0; i<round; i++) {
-                TournamentComponent tc = new TournamentComponent(round);
+        while ((round /= 2) != 0) {
+            for (int i = 0; i < round; i++) {
+                TournamentComponent tc = new TournamentComponent(round*2);
 
+                tournamentComponents.add(tc);
                 matches.add(tc);
                 preMatches.add(tc);
 
-                if(this.round/2 == round) {
+                if (this.round / 2 == round) {
                     Music music1 = musicList.get(i);
                     Music music2 = musicList.get(this.round - i - 1);
 
                     tc.setMusic1(music1);
                     tc.setMusic2(music2);
+
+                    tc.setIsLeafMatch(true);
                 }
 
                 TournamentComponent testPreTc = preMatches.peek();
 
-                if(testPreTc != null && testPreTc.getRound().equals(round)) {
+                if (testPreTc != null && testPreTc.getRound().equals(round)) {
                     continue;
                 }
 

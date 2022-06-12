@@ -22,6 +22,6 @@ public class TournamentTest {
 
         Tournament tournament = new Tournament(round, musicList);
 
-        assertThat(tournament.getMatches().size()).isEqualTo(round - 1);
+        assertThat(tournament.getTournamentComponents().size()).isEqualTo(round - 1);
     }
 }
