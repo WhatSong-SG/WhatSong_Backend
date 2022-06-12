@@ -1,13 +1,11 @@
 package com.sogong.whatsong.controller;
 
 import com.sogong.whatsong.controller.dto.request.CreateTournamentRequest;
-import com.sogong.whatsong.controller.dto.response.CreateTournamentResponse;
+import com.sogong.whatsong.controller.dto.response.MatchInformationResponse;
+import com.sogong.whatsong.controller.dto.response.TournamentResponse;
 import com.sogong.whatsong.service.tournament.TournamentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,7 +15,12 @@ public class TournamentController {
     private final TournamentService tournamentService;
 
     @PostMapping
-    public CreateTournamentResponse tournament(@RequestBody CreateTournamentRequest request) {
+    public TournamentResponse tournament(@RequestBody CreateTournamentRequest request) {
         return tournamentService.createTournament(request);
+    }
+
+    @GetMapping("/{tournament-id}/match/{match-id}")
+    public MatchInformationResponse match(@PathVariable("match-id") Integer matchId, @PathVariable("tournament-id") Long tournamentId) {
+        return tournamentService.getMatchInformation(matchId, tournamentId);
     }
 }
