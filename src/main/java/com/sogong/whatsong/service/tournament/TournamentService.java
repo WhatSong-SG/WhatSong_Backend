@@ -3,6 +3,7 @@ package com.sogong.whatsong.service.tournament;
 import com.sogong.whatsong.controller.dto.request.CreateTournamentRequest;
 import com.sogong.whatsong.controller.dto.response.MatchInformationResponse;
 import com.sogong.whatsong.controller.dto.response.TournamentResponse;
+import com.sogong.whatsong.controller.dto.response.TournamentWinnerResponse;
 import com.sogong.whatsong.entity.music.Music;
 import com.sogong.whatsong.entity.music.MusicRepository;
 import com.sogong.whatsong.entity.tournament.TournamentRepository;
@@ -107,5 +108,18 @@ public class TournamentService {
             tournament.setWinner(tc.getWinner());
             tournament.setIsFinish(true);
         }
+    }
+
+    public TournamentWinnerResponse getWinner(Long tournamentId) {
+        Tournament tournament = tournamentMap.get(tournamentId);
+
+        if (tournament == null) throw new IllegalStateException();
+        if (!tournament.getIsFinish()) throw new IllegalStateException();
+
+        return TournamentWinnerResponse.builder()
+                .name(tournament.getWinner().getName())
+                .cover(tournament.getWinner().getCover())
+                .artist(tournament.getWinner().getArtist())
+                .build();
     }
 }

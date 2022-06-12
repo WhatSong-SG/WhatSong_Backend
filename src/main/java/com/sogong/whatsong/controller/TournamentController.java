@@ -3,6 +3,7 @@ package com.sogong.whatsong.controller;
 import com.sogong.whatsong.controller.dto.request.CreateTournamentRequest;
 import com.sogong.whatsong.controller.dto.response.MatchInformationResponse;
 import com.sogong.whatsong.controller.dto.response.TournamentResponse;
+import com.sogong.whatsong.controller.dto.response.TournamentWinnerResponse;
 import com.sogong.whatsong.service.tournament.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +31,10 @@ public class TournamentController {
                        @PathVariable("winner-id") Integer winnerId
     ) {
         tournamentService.setWinner(matchId, tournamentId, winnerId);
+    }
+
+    @GetMapping("/{tournament-id}/winner")
+    public TournamentWinnerResponse winner(@PathVariable("tournament-id") Long tournamentId) {
+        return tournamentService.getWinner(tournamentId);
     }
 }
