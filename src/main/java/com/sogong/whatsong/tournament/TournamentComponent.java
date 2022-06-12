@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 public class TournamentComponent {
 
+    @Setter
     private Boolean isFinish;
 
     @Setter
@@ -18,6 +19,7 @@ public class TournamentComponent {
     @Setter
     private Boolean isLeafMatch = false;
 
+    @Setter
     private Music winner;
 
     private final Integer round;

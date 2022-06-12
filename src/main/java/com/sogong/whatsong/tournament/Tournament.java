@@ -2,6 +2,7 @@ package com.sogong.whatsong.tournament;
 
 import com.sogong.whatsong.entity.music.Music;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -13,8 +14,10 @@ public class Tournament {
 
     private final Integer matchCount;
 
+    @Setter
     private Boolean isFinish;
 
+    @Setter
     private Music winner;
 
     private final Integer round;
@@ -49,7 +52,7 @@ public class Tournament {
 
                 TournamentComponent testPreTc = preMatches.peek();
 
-                if (testPreTc != null && testPreTc.getRound().equals(round)) {
+                if (testPreTc != null && testPreTc.getRound().equals(round*2)) {
                     continue;
                 }
 
