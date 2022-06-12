@@ -1,13 +1,16 @@
 package com.sogong.whatsong.service.tournament;
 
 import com.sogong.whatsong.controller.dto.request.CreateTournamentRequest;
-import com.sogong.whatsong.controller.dto.response.CreateTournamentResponse;
+import com.sogong.whatsong.controller.dto.response.MatchInformationResponse;
+import com.sogong.whatsong.controller.dto.response.TournamentResponse;
 import com.sogong.whatsong.entity.music.Music;
 import com.sogong.whatsong.entity.music.MusicRepository;
 import com.sogong.whatsong.entity.tournament.TournamentRepository;
 import com.sogong.whatsong.tournament.Tournament;
+import com.sogong.whatsong.tournament.TournamentComponent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +25,8 @@ public class TournamentService {
 
     private final Map<Long, Tournament> tournamentMap = new HashMap<>();
 
-    public CreateTournamentResponse createTournament(CreateTournamentRequest request) {
+    @Transactional
+    public TournamentResponse createTournament(CreateTournamentRequest request) {
         Long tournamentId = tournamentRepository.save(tournamentRepository.getTournament()).getId();
 
         List<Music> music = musicRepository.findOrderByRandom(request.getRound());
@@ -30,9 +34,48 @@ public class TournamentService {
 
         tournamentMap.put(tournamentId, tournament);
 
-        return CreateTournamentResponse.builder()
+        return TournamentResponse.builder()
                 .tournamentId(tournamentId)
                 .matchCount(tournament.getMatchCount())
+                .round(tournament.getRound())
+                .build();
+    }
+
+    public MatchInformationResponse getMatchInformation(Integer matchId, Long tournamentId) {
+        Tournament tournament = tournamentMap.get(tournamentId);
+        if(tournament == null) return null;
+
+        TournamentComponent tc = tournament.getMatches().get(matchId);
+        if(tc == null) return null;
+
+        if(!tc.getIsLeafMatch()) {
+            tc.setMusic1(tc.getMusic1PreComponent().getWinner());
+            tc.setMusic2(tc.getMusic2PreComponent().getWinner());
+        }
+
+        int draw = matchId;
+        int round = tournament.getRound() / 2;
+
+        while(draw - round >= 0) {
+            draw -= round;
+            round /= 2;
+        }
+
+        return MatchInformationResponse.builder()
+                .id(matchId)
+                .music1(MatchInformationResponse.Music.builder()
+                        .name(tc.getMusic1().getName())
+                        .cover(tc.getMusic1().getCover())
+                        .artist(tc.getMusic1().getArtist())
+                        .build())
+                .music2(MatchInformationResponse.Music.builder()
+                        .name(tc.getMusic2().getName())
+                        .cover(tc.getMusic2().getCover())
+                        .artist(tc.getMusic2().getArtist())
+                        .build())
+                .currentRound(tc.getRound())
+                .matchCount(round)
+                .match(draw + 1)
                 .build();
     }
 }

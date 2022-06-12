@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class CreateTournamentResponse {
+public class TournamentResponse {
 
     private final Long tournamentId;
 
     private final Integer matchCount;
+
+    private final Integer round;
 }
