@@ -48,6 +48,8 @@ public class TournamentService {
         TournamentComponent tc = tournament.getMatches().get(matchId);
         if(tc == null) return null;
 
+        if(tournament.getIsFinish()) return null;
+
         if(!tc.getIsLeafMatch()) {
             tc.setMusic1(tc.getMusic1PreComponent().getWinner());
             tc.setMusic2(tc.getMusic2PreComponent().getWinner());
@@ -76,6 +78,34 @@ public class TournamentService {
                 .currentRound(tc.getRound())
                 .matchCount(round)
                 .match(draw + 1)
+                .isFinish(tc.getIsFinish())
                 .build();
+    }
+
+    public void setWinner(Integer matchId, Long tournamentId, Integer winnerId) {
+        Tournament tournament = tournamentMap.get(tournamentId);
+        if (tournament == null) throw new IllegalStateException();
+
+        TournamentComponent tc = tournament.getMatches().get(matchId);
+        if (tc == null) throw new IllegalStateException();
+
+        if (tournament.getIsFinish()) throw new IllegalStateException();
+        if (tc.getIsFinish()) throw new IllegalStateException();
+
+        switch (winnerId) {
+            case 0:
+                tc.setWinner(tc.getMusic1());
+                break;
+            case 1:
+                tc.setWinner(tc.getMusic2());
+                break;
+        }
+
+        tc.setIsFinish(true);
+
+        if (tournament.getMatchCount() - 1 == matchId) {
+            tournament.setWinner(tc.getWinner());
+            tournament.setIsFinish(true);
+        }
     }
 }

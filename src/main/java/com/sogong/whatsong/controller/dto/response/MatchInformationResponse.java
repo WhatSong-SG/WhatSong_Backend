@@ -19,6 +19,8 @@ public class MatchInformationResponse {
 
     private final Integer match;
 
+    private final Boolean isFinish;
+
     @Builder
     @Getter
     public static class Music {
