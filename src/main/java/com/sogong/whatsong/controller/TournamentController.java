@@ -23,4 +23,12 @@ public class TournamentController {
     public MatchInformationResponse match(@PathVariable("match-id") Integer matchId, @PathVariable("tournament-id") Long tournamentId) {
         return tournamentService.getMatchInformation(matchId, tournamentId);
     }
+
+    @PostMapping("/{tournament-id}/match/{match-id}/winner/{winner-id}")
+    public void winner(@PathVariable("match-id") Integer matchId,
+                       @PathVariable("tournament-id") Long tournamentId,
+                       @PathVariable("winner-id") Integer winnerId
+    ) {
+        tournamentService.setWinner(matchId, tournamentId, winnerId);
+    }
 }
