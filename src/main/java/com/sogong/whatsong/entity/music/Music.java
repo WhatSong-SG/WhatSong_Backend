@@ -30,14 +30,20 @@ public class Music {
     private String spotifyLink;
 
     private Integer up;
+
+    private Integer tournamentWinCount;
     
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
     public void recommend() {
         this.up++;
+    }
+
+    public void tournamentWin() {
+        this.tournamentWinCount++;
     }
 }

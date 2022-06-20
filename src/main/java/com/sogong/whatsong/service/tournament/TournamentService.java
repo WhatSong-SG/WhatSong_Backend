@@ -105,8 +105,13 @@ public class TournamentService {
         tc.setIsFinish(true);
 
         if (tournament.getMatchCount() - 1 == matchId) {
-            tournament.setWinner(tc.getWinner());
+            Music winner = tc.getWinner();
+
+            tournament.setWinner(winner);
             tournament.setIsFinish(true);
+
+            winner.tournamentWin();
+            musicRepository.save(winner);
         }
     }
 
