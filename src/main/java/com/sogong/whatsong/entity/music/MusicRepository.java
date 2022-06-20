@@ -16,4 +16,5 @@ public interface MusicRepository extends CrudRepository<Music, Long> {
 
     List<Music> findTop10ByOrderByUpDesc();
     List<Music> findByGenreOrderByUpDesc(Genre genre);
+    List<Music> findAllByOrderByTournamentWinCountDesc();
 }

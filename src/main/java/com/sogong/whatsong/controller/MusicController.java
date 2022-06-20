@@ -34,6 +34,11 @@ public class MusicController {
         return musicService.getMusicByGenre(genreId);
     }
 
+    @GetMapping("/tournament/rank")
+    public MusicListResponse tournamentLank() {
+        return musicService.getTournamentRank();
+    }
+
     @PatchMapping("/{music-id}/up")
     public void musicRecommend(@PathVariable("music-id") Long musicId) {
         musicService.recommendMusic(musicId);

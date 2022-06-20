@@ -79,6 +79,22 @@ public class MusicService {
                 .build();
     }
 
+    public MusicListResponse getTournamentRank() {
+        List<Music> music = musicRepository.findAllByOrderByTournamentWinCountDesc();
+
+        return MusicListResponse.builder()
+                .music(music.stream().map(m -> MusicListResponse.Music.builder()
+                        .id(m.getId())
+                        .trackName(m.getName())
+                        .cover(m.getCover())
+                        .artist(m.getArtist())
+                        .date(m.getCreatedAt())
+                        .up(m.getUp())
+                        .build())
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
     @Transactional
     public void recommendMusic(Long musicId) {
         Music music = musicRepository.findById(musicId)
